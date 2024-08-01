@@ -35,7 +35,6 @@ loop window i = do
 
   loop window' (i + 1)
 
-
 applyInput :: Window -> IO Window
 applyInput window = do
   mInput <- getInput
@@ -43,14 +42,11 @@ applyInput window = do
     Nothing     -> return window
     Just input  -> windowHandler window window (WindowEventKeyboard input)
 
-
 applyTick :: Integer -> Window -> IO Window
 applyTick i window = windowHandler window window (WindowEventLoopTick i)
 
-
 seqApply :: Monad m => [a -> m a] -> a -> m a
 seqApply fs a = foldM (\a' f -> f a') a fs
-
 
 
 
@@ -65,8 +61,6 @@ displayWindow window = do
   -- draw the window's elements
   mapM_ (drawElement (windowPosition window)) (windowElements window)
 
-
-
 drawElement :: Position -> WindowElement -> IO ()
 drawElement origin (WindowElementText pos cs)                  = do
   mapM_ (\(i, line) -> moveCursor (origin ~+ pos ~+ (0, i)) >> putStr line) (zip [0..] (lines cs))
@@ -77,7 +71,6 @@ drawElement origin (WindowElementTextInput pos (x, y) content) = do
   putStr "\x1b[48;2;25;25;25m\x1b[5m"
   mapM_ (\(y', line) -> moveCursor (origin ~+ pos ~+ (0, y')) >> putStr (take x line <> replicate (x - length line) ' ')) (zip [0..y] (lines content <> repeat ""))
   putStr "\x1b[0m"
-
 
 drawFrame :: Position -> Size -> Maybe String -> IO ()
 drawFrame (px, py) (sx, sy) mtitle = do
@@ -104,8 +97,10 @@ getInput = hReady stdin >>= \case
   True  -> (getChar <&> Just)
   False -> return Nothing
 
+
 moveCursor :: Position -> IO ()
 moveCursor (x, y) = putStr $ "\x1b[" <> show y <> ";" <> show x <> "H"
+
 
 (~+) :: (Num a, Num b) => (a, b) -> (a, b) -> (a, b)
 (~+) (x, y) (x', y') = (x+x', y+y')
