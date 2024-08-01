@@ -2,7 +2,7 @@
 module HCLI.IO ( windowLoop, displayWindow ) where
 
 
-import System.IO          ( stdin, hSetBuffering, hSetEcho, BufferMode(NoBuffering), hReady )
+import System.IO          ( stdin, stdout, hSetBuffering, hSetEcho, BufferMode(NoBuffering), hReady )
 import Data.Functor       ( (<&>) )
 import Control.Monad      ( when, foldM )
 import Control.Concurrent ( threadDelay )
@@ -16,6 +16,7 @@ windowLoop :: Window -> IO ()
 windowLoop window = do
   -- setup
   hSetBuffering stdin NoBuffering
+  hSetBuffering stdout NoBuffering
   hSetEcho stdin False
   putStr "\x1b[?25l"
 
@@ -49,7 +50,7 @@ seqApply :: Monad m => [a -> m a] -> a -> m a
 seqApply fs a = foldM (\a' f -> f a') a fs
 
 
-
+-- TODO: highlight selected element
 displayWindow :: Window -> IO ()
 displayWindow window = do
   putStrLn "\x1b[2J" -- clearing
