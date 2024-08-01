@@ -1,0 +1,33 @@
+cabal-version:      3.0
+name:               HCLI-Lib
+version:            0.1.0.0
+
+-- synopsis:
+-- description:
+
+homepage:           github.com/S3NP41-v/HCLI-Lib
+license:            MIT
+license-file:       LICENSE
+author:             S3NP41-v
+maintainer:         s3np41v@gmail.com
+-- copyright:
+category:           Development
+build-type:         Simple
+extra-doc-files:    CHANGELOG.md
+-- extra-source-files:
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    exposed-modules:  
+        HCLI
+      , HCLI.IO
+      , HCLI.Data
+
+    build-depends:    
+        base ^>=4.19.1.0
+      , aeson
+    hs-source-dirs:   src
+    default-language: Haskell2010
