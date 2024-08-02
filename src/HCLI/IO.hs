@@ -69,7 +69,7 @@ drawElement origin (WindowElementText pos cs)                  = do
 drawElement origin (WindowElementFrame pos size title)         = drawFrame (origin ~+ pos) size title
 drawElement origin (WindowElementTextInput pos (x, y) content) = do
   moveCursor (origin ~+ pos)
-  putStr "\x1b[48;2;25;25;25m\x1b[5m"
+  putStr "\x1b[48;2;40;40;40m\x1b[5m"
   mapM_ (\(y', line) -> moveCursor (origin ~+ pos ~+ (0, y')) >> putStr (take x line <> replicate (x - length line) ' ')) (zip [0..y] (lines content <> repeat ""))
   putStr "\x1b[0m"
 
